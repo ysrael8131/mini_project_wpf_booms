@@ -1,5 +1,4 @@
-﻿using Syncfusion.Windows.Controls.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,22 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UI.ViewModels;
 
 namespace UI.Views
 {
     /// <summary>
-    /// Interaction logic for AddReport.xaml
+    /// Interaction logic for DataStatistics.xaml
     /// </summary>
-    public partial class AddReport : UserControl
+    public partial class DataStatistics : UserControl
     {
-        public AddReportViewModel CurrentVM { set; get; }
-
-        public AddReport()
+        public DataStatistics()
         {
             InitializeComponent();
-            CurrentVM = new AddReportViewModel();
-            this.DataContext = CurrentVM;
         }
     }
 }

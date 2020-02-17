@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +10,17 @@ namespace BE
 {
     public class Event
     {
-        public int idEvent { set; get; }
-        public List<Report> reports { set; get; }
-        public List<BoomLocation> boomLocations { set; get; }
+        public Event()
+        {
+        }
+        [Key]
+        public int NumEvent { set; get; }
+        [Required]
         public DateTime start { set; get; }
-        public DateTime end { set; get; }
+        [Required]
+        public int numbooms { set; get; }
+        public virtual ICollection<BoomLocation> BoomLocations { get; set; }
+        public virtual ICollection<Report> reports { get; set; }
+       
     }
 }

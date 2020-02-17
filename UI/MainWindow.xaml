@@ -14,21 +14,16 @@
 
         </Grid.RowDefinitions>
         <dxwui:PageView Header="תפריט" Background="Gray" Grid.Row="0" >
-            <dxwui:PageViewItem Header="הוסף דיווח" MouseEnter="PageViewItem_MouseEnter" MouseDoubleClick="addReportwclick">
+            <dxwui:PageViewItem Header="הוסף דיווח"  MouseDoubleClick="addReportwclick">
                 <Grid Background="#FFE5E5E5"/>
             </dxwui:PageViewItem>
             <dxwui:PageViewItem Header="מפת נפילות" MouseDoubleClick="explosionMapWclick">
                 <Grid Background="#FFE5E5E5"/>
             </dxwui:PageViewItem>
-            <dxwui:PageViewItem Header="נתונים סטטסטיים">
+            <dxwui:PageViewItem Header="נתונים סטטסטיים" MouseDoubleClick="statistics_MouseDoubleClick">
                 <Grid Background="#FFE5E5E5"/>
             </dxwui:PageViewItem>
-            <dxwui:PageViewItem Header="עדכוני נפילות" >
-                <Grid Background="#FFE5E5E5"/>
-            </dxwui:PageViewItem>
-            <dxwui:PageViewItem Header="חיפוש">
-                <Grid Background="#FFE5E5E5"/>
-            </dxwui:PageViewItem>
+         
             <dxwui:PageViewItem Header="אודות">
                 <Grid Background="#FFE5E5E5"/>
             </dxwui:PageViewItem>

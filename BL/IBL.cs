@@ -20,11 +20,14 @@ namespace BL
 
         void addEvent(Event event1);
         void deleteEvent(Event event1);
-        void updateEvent(Event event1);
+        void updateEvent(int key,Report report,List<BoomLocation> boomLocations);
+
+        void addReportToEvent(int key, Report report);
+
 
         IEnumerable<BoomLocation> getListBoomLocation();
         IEnumerable<Report> getListReports();
-        IEnumerable<Event> GetEvents();
+        Task<List<Event>> GetEvents();
 
         BoomLocation GetBoomLocation(BoomLocation boomLocation);
         Report GetReport(Report Report);

@@ -2,13 +2,14 @@
 using DS;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class dal_imp : IDAL , IDisposable
+    public class dal_imp : IDAL, IDisposable
     {
         dataSource ds;
         public dal_imp()
@@ -16,25 +17,44 @@ namespace DAL
             ds = new dataSource();
         }
 
-        public void addBoomLocation(BoomLocation boomLocation)
+        public async void addBoomLocation(BoomLocation boomLocation)
         {
+
             ds.boomlocations.Add(boomLocation);
-            ds.SaveChanges();
+            await ds.SaveChangesAsync();
+
+
         }
 
-        public void addEvent(Event event1)
+        public async void addEvent(Event event1)
         {
-            throw new NotImplementedException();
+
+            ds.events.Add(event1);
+            await ds.SaveChangesAsync();
+
+
+
         }
 
-        public void addReport(Report report)
+        public async void addReport(Report report)
         {
-            ds.reports.Add(report);
-            ds.SaveChanges();
+            using (var ds = new dataSource())
+            {
+                ds.reports.Add(report);
+                await ds.SaveChangesAsync();
+            }
+
         }
 
         public void deleteBoomLocation(BoomLocation boomLocation)
         {
+            using (var ds = new dataSource())
+            {
+                ds.Configuration.ValidateOnSaveEnabled = false;
+                ds.boomlocations.Attach(boomLocation);
+                ds.Entry(boomLocation).State = EntityState.Deleted;
+                ds.SaveChanges();
+            }
 
         }
 
@@ -45,44 +65,53 @@ namespace DAL
 
         public void deleteReport(Report report)
         {
-            ds.reports.Remove(report);
-            ds.SaveChanges();
+            using (var ds = new dataSource())
+            {
+                ds.reports.Remove(report);
+                ds.SaveChanges();
+            }
+
+
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         public BoomLocation GetBoomLocation(BoomLocation boomLocation)
         {
-
-            return ds.boomlocations.Find(boomLocation);
+            using (var ds = new dataSource())
+                return ds.boomlocations.Find(boomLocation);
         }
 
         public Event GetEvent(Event event1)
         {
-            throw new NotImplementedException();
+            using (var ds = new dataSource())
+                return ds.events.Find(event1.NumEvent);
         }
 
-        public IEnumerable<Event> GetEvents()
+        public async Task<List<Event>> GetEvents()
         {
-            throw new NotImplementedException();
+
+            return await (from d in ds.events select d).ToListAsync();
         }
 
         public IEnumerable<BoomLocation> getListBoomLocation()
         {
-            return ds.boomlocations.ToList();
+            using (var ds = new dataSource())
+                return ds.boomlocations.ToList();
         }
 
         public IEnumerable<Report> getListReports()
         {
-            return ds.reports.ToList();
+            using (var ds = new dataSource())
+                return ds.reports.ToList();
         }
 
         public Report GetReport(Report report)
         {
-            return ds.reports.Find(report);
+            using (var ds = new dataSource())
+                return ds.reports.Find(report);
         }
 
         public void updateBoomLocation(BoomLocation boomLocation)
@@ -90,14 +119,50 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public void updateEvent(Event event1)
+        public async void  updateEvent(int key, Report report, List<BoomLocation> boomLocations)
         {
-            throw new NotImplementedException();
+
+            if (ds.events.Find(key) != null)
+            {
+                Event event2 = ds.events.Find(key);
+                ds.boomlocations.RemoveRange(event2.BoomLocations);
+                Report re = report;
+                report.@event = event2;
+                event2.reports.Add(re);
+
+                foreach(var item in boomLocations)
+                {
+                    item.@event = event2;
+                    event2.BoomLocations.Add(item);
+                }
+                event2.numbooms += report.numBooms;
+
+                await ds.SaveChangesAsync();
+
+            }
+            else
+            {
+                throw new Exception("no event");
+            }
+
+
+
         }
 
         public void updateReport(Report report)
         {
             throw new NotImplementedException();
         }
+        public void addReportToEvent(int key, Report report)
+        {
+            using (var ds = new dataSource())
+            {
+                Event ev = ds.events.Find(key);
+                ev.reports.Add(report);
+                ds.SaveChanges();
+            }
+
+        }
+
     }
 }

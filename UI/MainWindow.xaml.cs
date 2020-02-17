@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using UI.Views;
+using BE;
 namespace UI
 {
     /// <summary>
@@ -24,11 +25,13 @@ namespace UI
         {
             InitializeComponent();
          
+
+            
         }
 
         private void addReportwclick(object sender, MouseButtonEventArgs e)
         {
-            addReport addReport = new addReport();
+            AddReport addReport = new AddReport();
             this.page.Content = addReport;
         }
 
@@ -38,10 +41,11 @@ namespace UI
             this.page.Content = explosionMap;
         }
 
-        private void PageViewItem_MouseEnter(object sender, MouseEventArgs e)
+      
+
+        private void statistics_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            addReport addReport = new addReport();
-            this.page.Content = addReport;
+
         }
     }
 }

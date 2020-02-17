@@ -1,7 +1,6 @@
 ﻿using DevExpress.Xpf.Map;
 using System;
 using System.Collections.Generic;
-using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,29 +13,39 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UI.ViewModels;
 
-namespace UI
+namespace UI.Views
 {
     /// <summary>
     /// Interaction logic for explosionMap.xaml
     /// </summary>
     public partial class explosionMap : UserControl
     {
+        public ExplosionMapViewModel curentVM { get; set; }
         public explosionMap()
         {
             InitializeComponent();
+            curentVM = new ExplosionMapViewModel();
+            this.DataContext = curentVM;
+            
+            
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void ComboBoxAdv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<GeoPoint> locations = new List<GeoPoint> {
-                new GeoPoint(31,35),
-                new GeoPoint(36.131389, -90.937222),
-                new GeoPoint(32.175, -80.136389)
-            };
-          //  provider.RequestPointsElevations(locations);
-       
+            provider.RequestPointsElevations(curentVM.collection(e.AddedItems[0].ToString()).ToList());
+
         }
-        
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if(datim.SelectedItem != null)
+            {
+                provider.RequestPointsElevations(curentVM.collection2(datim.SelectedItem.ToString()).ToList());
+                
+            }
+
+        }
     }
 }
